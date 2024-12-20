@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <dirent.h>
+#include <windows.h>
 #include "calendrier.h"
 
 
@@ -66,7 +67,7 @@ void affichage_calendrier(void)
 
             case 'q':
                 printf("\nvous allez quitter cette partie dans quelques secondes...");
-                sleep(1);
+                Sleep(1000);
                 system("cls");
                 return ;
                 break;
@@ -152,8 +153,7 @@ void affichage_month(year my_year, int monthNumber)
             lignes++ ;
             gotoxy(lignes,20);
         }                                               
-                                                                            
-                                                                            
+                                                                                                                                   
     /*first_day_month + 1 car l'indice du jour va de 0 a 6 or on a besoin de chiffre de 1 à 7                                                                              
     après le dernier nombre on retourne à la ligne et on laisse l'ecart entre le bord et le 
     mais on laisse un ept de place car l'écriture du nombre va écrire "       %d" et c'est pour cela qu'il ne faut pas

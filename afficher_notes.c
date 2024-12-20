@@ -216,8 +216,7 @@ void afficherContenufIchier( int day, int month, int year)
         printf("\n\nFin de la note.\n");
     }
     printf("\n\apress any key to continue.");
-    char c = getch();
-    c = "";
+    
     fclose(mon_fichier);
 }
 
