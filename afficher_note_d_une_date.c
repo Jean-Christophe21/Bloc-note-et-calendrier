@@ -23,7 +23,7 @@ void afficher_note_date(void)
     month = saisi_user("du mois");
     year  = saisi_user("de l'annee");
 
-    int val = verifier_présence_note_du_mois(month, year);
+    int val = verifier_presence_note_du_mois(month, year);
     if(val)
     {
         FILE* fic = NULL ;
@@ -40,7 +40,7 @@ void afficher_note_date(void)
                     {
                         case 'q':
                         printf("\n\avous allez quitter cette partie dans quelques instants..");
-                        sleep(0.75);
+                        sleep(0.75); //sleep prend en paramètre un entier
                             return;
                             break;
                         case 'n' :

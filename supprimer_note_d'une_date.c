@@ -13,10 +13,10 @@ void supprimer_note(void)
     int month = read_month();
     int day = read_day(month);
     struct stat info ;
-    char fichier[50];
-    char chemin[50];
-    sprintf(chemin, "C:\\Calendrier\\%d_%d", month, year);
-    sprintf(fichier, "C:\\Calendrier\\%d_%d\\%d_%d_%d.txt",month, year, day, month, year);
+    char fichier[250];
+    char chemin[250];
+    sprintf(chemin, "D:\\programmation\\c_programm\\Advanced_Programms\\Bloc-note-et-calendrier\\Calendrier%d_%d", month, year);
+    sprintf(fichier, "D:\\programmation\\c_programm\\Advanced_Programms\\Bloc-note-et-calendrier\\Calendrier%d_%d\\%d_%d_%d.txt",month, year, day, month, year);
     FILE* fic = NULL;
 
     if(stat(chemin, &info) == -1 )
@@ -39,7 +39,7 @@ void supprimer_note(void)
             {
                 printf("Fichier Supprimé avec succes..\n");
                 printf("retour au menu principal...\n");
-                sleep(0.75);
+                sleep(0.75); //sleep prend en paramètre un entier
             }
             else
             {

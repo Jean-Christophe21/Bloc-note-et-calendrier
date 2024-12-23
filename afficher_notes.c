@@ -6,6 +6,7 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 #include "calendrier.h"
+#include <errno.h> //Ajout de l'import à cause de EACCES
 
 //#include "main.c"
 
@@ -25,9 +26,9 @@
 /// @return 
 DIR* searchNote(int day ,int month,int annee) 
 {
-        char nomDuFichier[12] = "";
-        sprintf(nomDuFichier, "%d_%d_%d.txt", day, month, annee);
-        char chemin[50] = "C:\\Calendrier\\";
+        char nomDuFichier[15] = ""; //Nombre de caractère insuffisant pour la variable nomDuFichier car par exemple "12_11_2023.txt" contiendra 15 caractère en comptant le caractére "/0"
+        sprintf(nomDuFichier, "%d_%d_%d.txt", day, month, annee); 
+        char chemin[250] = "D:\\programmation\\c_programm\\Advanced_Programms\\Bloc-note-et-calendrier\\Calendrier";
         //strcat(chemin,nomDuFichier);
         DIR *rep = NULL ;
         rep = opendir(chemin);
@@ -63,7 +64,7 @@ DIR* searchNote(int day ,int month,int annee)
 /// @param annee 
 void afficher_note_du_mois(int month,int annee)
 {
-    if(verifier_présence_note_du_mois(month, annee))
+    if(verifier_presence_note_du_mois(month, annee))
     {
         int val = 0;
         for(int day = 0; day <= 31; day++)
@@ -71,7 +72,7 @@ void afficher_note_du_mois(int month,int annee)
             if(verifierPresenceNoteDuJour(day, month, annee))
             {
                 val++ ;
-                system("cls");
+                system("cls"); 
                 afficherContenufIchier( day, month, annee);
                 printf("press 'q' to quit, 'm' to modify, 'n' to show the next note : ");
                 
@@ -82,7 +83,7 @@ void afficher_note_du_mois(int month,int annee)
                     {
                         case 'q':
                         printf("\n\avous allez quitter cette partie dans quelques instants..");
-                        sleep(1.5);
+                        sleep(1.5); //sleep est une fonction qui fonction sur linux et pas forcément sur windows. Pour interagir avec windows il serait préférable d'utiliser Sleep(données en millisecondes)
                             return;
                             break;
                         case 'm':
@@ -119,10 +120,10 @@ void afficher_note_du_mois(int month,int annee)
 }
 
 
-int verifier_présence_note_du_mois(int month,int annee)
+int verifier_presence_note_du_mois(int month,int annee)
 {
-    char chemin[50] ;
-    sprintf(chemin, "C:\\Calendrier\\%d_%d", month, annee);
+    char chemin[250] ;
+    sprintf(chemin, "D:\\programmation\\c_programm\\Advanced_Programms\\Bloc-note-et-calendrier\\Calendrier%d_%d", month, annee);
                
     DIR *rep = NULL ;
     rep = opendir(chemin);
@@ -161,8 +162,8 @@ int verifierPresenceNoteDuJour(int day, int month, int year)
 {
     char nomDuFichier[15] = "";
     sprintf(nomDuFichier, "%d_%d_%d.txt", day, month, year);
-    char chemin[50] ;
-    sprintf(chemin,  "C:\\Calendrier\\%d_%d", month, year);
+    char chemin[250] ;
+    sprintf(chemin,  "D:\\programmation\\c_programm\\Advanced_Programms\\Bloc-note-et-calendrier\\Calendrier%d_%d", month, year);
     DIR *rep = NULL ;
     rep = opendir(chemin);
 
@@ -177,7 +178,7 @@ int verifierPresenceNoteDuJour(int day, int month, int year)
             while ((fichierlu = readdir(rep))!=NULL)
             {
                 stat(fichierlu->d_name, &info);
-                if(S_ISDIR(info.st_mode) != 1)
+                if(S_ISDIR(info.st_mode) != 1) //Vérification si l'entrée n'est pas un répertoire
                 {
                     if(0 == strcmp(fichierlu->d_name, nomDuFichier))  // le contenu lu doit être different du repertoire parent et du repertoire actuel
                     {
@@ -195,8 +196,8 @@ int verifierPresenceNoteDuJour(int day, int month, int year)
 
 void afficherContenufIchier( int day, int month, int year)
 {
-    char chemin[50];
-    sprintf(chemin, "C:\\Calendrier\\%d_%d\\%d_%d_%d.txt",month, year, day, month, year);
+    char chemin[250];
+    sprintf(chemin, "D:\\programmation\\c_programm\\Advanced_Programms\\Bloc-note-et-calendrier\\Calendrier%d_%d\\%d_%d_%d.txt",month, year, day, month, year);
     FILE* mon_fichier = NULL;
     mon_fichier = fopen(chemin, "r");
     if(mon_fichier == NULL)
@@ -230,8 +231,8 @@ void modifierNote(int day, int month, int year)
     int choix = 0 ;
     FILE* fic = NULL;
 
-    char nom[50];
-    sprintf(nom, "C:\\Calendrier\\%d_%d\\%d_%d_%d.txt",month, year, day, month, year);
+    char nom[250];
+    sprintf(nom, "D:\\programmation\\c_programm\\Advanced_Programms\\Bloc-note-et-calendrier\\Calendrier%d_%d\\%d_%d_%d.txt",month, year, day, month, year);
     system("cls");
     printf("\n***************MODIIFICATION DES NOTES EXISTANTES*****************\n\n");
     printf("\a1* Modifier la note existant pour se jour \n");
@@ -252,7 +253,7 @@ void modifierNote(int day, int month, int year)
         }
 
         printf("\n\tveuillez saisir la suite des notes de ce jour\n(retour a la ligne + Ctrl + z + Entree pour arreter la saisie du texte) :\n");
-        while(fgets(lignes, sizeof(lignes), stdin))
+        while(fgets(lignes, sizeof(lignes), stdin)) //continue à lire des lignes tant que fgets() ne retourne pas NULL
         {
             fprintf(fic,"%s", lignes);
         }
