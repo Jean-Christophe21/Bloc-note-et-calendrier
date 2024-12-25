@@ -12,10 +12,10 @@ void save_nouvelle_note(void)
     int month = read_month();
     int day = read_day(month);
     struct stat info ;
-    char fichier[50];
-    char chemin[50];
-    sprintf(chemin, "C:\\Calendrier\\%d_%d", month, year);
-    sprintf(fichier, "C:\\Calendrier\\%d_%d\\%d_%d_%d.txt",month, year, day, month, year);
+    char fichier[250];
+    char chemin[250];
+    sprintf(chemin, "D:\\programmation\\c_programm\\Advanced_Programms\\Bloc-note-et-calendrier\\Calendrier%d_%d", month, year);
+    sprintf(fichier, "D:\\programmation\\c_programm\\Advanced_Programms\\Bloc-note-et-calendrier\\Calendrier%d_%d\\%d_%d_%d.txt",month, year, day, month, year);
     FILE* fic = NULL;
     fic = fopen(fichier, "r" );
     if(fic != NULL)
@@ -26,7 +26,7 @@ void save_nouvelle_note(void)
     }
 
 
-    if(stat(chemin, &info)== -1)
+    if(stat(chemin, &info)== -1) //Si le repertoire n'existe pas, on crée le repertoire
     {
         if(CreateDirectory(chemin, NULL)|| ERROR_ALREADY_EXISTS == GetLastError())
         {

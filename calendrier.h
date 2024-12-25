@@ -1,5 +1,5 @@
-#pragma once
-#include <dirent.h>
+#pragma once //Il garantit que le fichier est inclus une seule fois par unité de compilation, sans nécessiter de noms uniques ou de macros supplémentaires.
+#include <dirent.h> // Inclut le fichier d'en-tête nécessaire pour manipuler les répertoires dans des systèmes conformes à POSIX (comme Linux ou macOS).
 
 
 typedef struct year {
@@ -71,7 +71,7 @@ DIR* searchNote(int day ,int month,int annee) ;
 
 void afficher_note_du_mois(int month,int annee);
 
-int verifier_présence_note_du_mois(int month,int annee);
+int verifier_presence_note_du_mois(int month,int annee);
 
 int verifierPresenceNoteDuJour(int day, int month, int year) ;
 

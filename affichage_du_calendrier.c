@@ -20,16 +20,16 @@ void affichage_calendrier(void)
 
         show_month_only :
         //month* mthaAfficher = mois_a_afficher(user_year, mois);o
-        printf("\n\n");
+        //printf("\n\n"); //Inutile à cause de "cls" qui vient après
         system("cls");
         affichage_month(user_year, mois) ;
         setConsoleColor(6,1);
         printf("\n\n            ");
         printf("Press 'n' to next, 'p' to previous, 'q' to Quit\n");
         printf("            and 's' to show the note :");
-        char ch = getch();
         
-        reenter_text :
+        char ch = getch();
+        reenter_text : //inclure le saisi de caractère pour éviter une boucle infini
             switch (ch)
             {
             case 'n':
@@ -47,7 +47,7 @@ void affichage_calendrier(void)
                 }
             
             case 'p':
-                if(mois == 1)
+                if(mois == 1) //Ici il faudrait plutôt gérer le cas mois=0 qui représente janvier
                 {
                     mois = 11 ;
                     annee-= 1 ;
@@ -74,7 +74,7 @@ void affichage_calendrier(void)
             default :
                 printf("\nvous avez entrer un caractère incorrecte.\n");
                 system("cls") ;
-                goto reenter_text ;
+                goto reenter_text ; //Gérer correctement cette partie à cause d'une boucle infini
             }
     }
 }
@@ -107,6 +107,8 @@ void affichage_month(year my_year, int monthNumber)
     int nbr_day = currentMth->nbr_day ;
     int indice_first_day = index_day(my_year.number, monthNumber, 1);  // récupération de l'indice du jour du premier jour du mois(0 pour le dimancche 1 pour le lundi...)
 
+    system("cls");
+
     //int annee = my_mth->year_parent->number ;
     gotoxy(20,0);
     printf("----------------------------------------------------------\n");
@@ -118,7 +120,7 @@ void affichage_month(year my_year, int monthNumber)
     printf("S        M        T        W        T        F        S\n");
 
 
-    gotoxy((16+indice_first_day*8),4);
+    gotoxy((16+indice_first_day*8),4); //pourquoi ajouter de 16, est ce qu'il y'aura pas décalage
     int lignes = 4 ;
     
     for(cpt = 1; cpt <= nbr_day; cpt++)
@@ -127,7 +129,7 @@ void affichage_month(year my_year, int monthNumber)
         {
             setConsoleColor(4, 1);    // changement de la couleur d'écriture dans le terminal
             if(cpt <= 9 ){
-                printf("       0%d",cpt);
+                printf("       0%d",cpt); 
             }
             
             else{
@@ -149,10 +151,12 @@ void affichage_month(year my_year, int monthNumber)
         if((indice_first_day + cpt) % 7 == 0)   // retour a la ligne au besoin
         {
 
-            printf("\n             ") ;
+            printf("             ") ; //risque de décalage à cause du premier décalage déjà présent
             lignes++ ;
-            gotoxy(lignes,20);
-        }                                               
+            gotoxy(20, lignes); //Correction de l'inversion des positions
+        }
+
+        //Mettre une mesure qui ramène le terminal à sa couleur initiale                                               
                                                                                                                                    
     /*first_day_month + 1 car l'indice du jour va de 0 a 6 or on a besoin de chiffre de 1 à 7                                                                              
     après le dernier nombre on retourne à la ligne et on laisse l'ecart entre le bord et le 
